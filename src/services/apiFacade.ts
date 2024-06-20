@@ -36,3 +36,10 @@ export async function editParticipantApi(
 
     return await handleHttpErrors(response).json()
 }
+
+export async function deleteParticipantApi(id: number): Promise<boolean> {
+    const options = makeOptions('DELETE', null)
+    const response = await fetch(`${API_URL}/api/participants/${id}`, options)
+
+    return response.status === 204
+}

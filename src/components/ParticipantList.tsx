@@ -5,7 +5,7 @@ import '../styling/participantList.css'
 import EditIcon from '@mui/icons-material/Edit'
 import EditParticipantDialog from './EditParticipantDialog'
 
-export default function ParticipantList() {
+export default function ParticipantList({ onUpdate }: { onUpdate: boolean }) {
     const [participants, setParticipants] = useState<Participant[]>([])
     const [dialogOpen, setDialogOpen] = useState(false)
     const [selectedParticipant, setSelectedParticipant] =
@@ -27,10 +27,16 @@ export default function ParticipantList() {
 
     useEffect(() => {
         fetchItems()
-    }, [])
+    }, [onUpdate])
 
     return (
         <>
+            {dialogOpen && (
+                <div
+                    className="greyed-out-overlay"
+                    onClick={toggleDialog}
+                ></div>
+            )}
             <div className="participant-list-container">
                 <table className="participant-list-table">
                     <thead className="participant-thead">

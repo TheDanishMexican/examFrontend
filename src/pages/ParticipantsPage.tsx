@@ -6,6 +6,7 @@ import AddParticipantDialog from '../components/AddParticipantDialog'
 
 export default function ParticipantsPage() {
     const [dialogOpen, setDialogOpen] = useState(false)
+    const [triggerUpdate, setTriggerUpdate] = useState(false)
 
     function toggleDialog() {
         setDialogOpen((prev: boolean) => !prev)
@@ -35,13 +36,11 @@ export default function ParticipantsPage() {
                             placeholder="Search for participant"
                         />
                     </div>
-                    <ParticipantList
-                        isOpen={dialogOpen}
-                        toggleDialog={toggleDialog}
-                    />
+                    <ParticipantList onUpdate={triggerUpdate} />
                     <AddParticipantDialog
                         isOpen={dialogOpen}
                         toggleDialog={toggleDialog}
+                        onUpdate={() => setTriggerUpdate((prev) => !prev)}
                     />
                 </div>
             </Fade>

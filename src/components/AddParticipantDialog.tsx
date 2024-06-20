@@ -8,9 +8,11 @@ import { addParticipantApi } from '../services/apiFacade'
 export default function AddParticipantDialog({
     isOpen,
     toggleDialog,
+    onUpdate,
 }: {
     isOpen: boolean
     toggleDialog: () => void
+    onUpdate: () => void
 }) {
     const [disciplines, setDisciplines] = useState<Discipline[]>([])
     const [name, setName] = useState('')
@@ -36,7 +38,7 @@ export default function AddParticipantDialog({
         )
     }
 
-    function handleSubmit(event: React.FormEvent) {
+    async function handleSubmit(event: React.FormEvent) {
         event.preventDefault()
         const participantData = {
             name,
@@ -46,8 +48,8 @@ export default function AddParticipantDialog({
             disciplineNames: selectedDisciplines,
         }
 
-        addParticipantApi(participantData)
-
+        await addParticipantApi(participantData)
+        onUpdate()
         resetForm()
     }
 
