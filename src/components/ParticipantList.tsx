@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import Participant from '../interfaces/Participant'
 import { fetchParticipants } from '../services/fetchUtils'
-import ParticipantItem from './ParticipantItem'
+import '../styling/participantList.css'
+import EditIcon from '@mui/icons-material/Edit'
 
 export default function ParticipantList() {
     const [participants, setParticipants] = useState<Participant[]>([])
@@ -17,12 +18,53 @@ export default function ParticipantList() {
 
     return (
         <div className="participant-list-container">
-            {participants.map((participant) => (
-                <ParticipantItem
-                    key={participant.id}
-                    participant={participant}
-                />
-            ))}
+            <table className="participant-list-table">
+                <thead className="participant-thead">
+                    <tr className="participant-tr">
+                        <th className="participant-th">Name</th>
+                        <th className="participant-th">Age</th>
+                        <th className="participant-th">Club</th>
+                        <th className="participant-th">Gender</th>
+                        <th className="participant-th">Disciplines</th>
+                        <th className="participant-th"></th>
+                    </tr>
+                </thead>
+                <tbody className="participant-tbody">
+                    {participants.map((participant) => (
+                        <tr className="participant-tr" key={participant.id}>
+                            <td className="participant-td">
+                                {participant.name}
+                            </td>
+                            <td className="participant-td">
+                                {participant.age}
+                            </td>
+                            <td className="participant-td">
+                                {participant.club}
+                            </td>
+                            <td className="participant-td">
+                                {participant.gender}
+                            </td>
+                            <td className="participant-td">
+                                <ul className="participant-ul">
+                                    {participant.disciplines.map(
+                                        (discipline) => (
+                                            <li
+                                                className="participant-li"
+                                                key={discipline.id}
+                                            >
+                                                {discipline.name}
+                                            </li>
+                                        )
+                                    )}
+                                </ul>
+                            </td>
+                            <td className="participant-td">
+                                <EditIcon className="edit-button-participant" />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     )
 }

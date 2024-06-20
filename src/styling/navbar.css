@@ -3,6 +3,7 @@
     flex-direction: row;
     justify-content: space-around;
     background-color: rgb(210, 228, 243);
+    border-radius: 2vh;
 }
 
 .nav-button {
@@ -10,8 +11,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-left: 2vh;
-    padding-right: 2vh;
+    text-decoration: none;
+    color: black;
+    padding: 1vh;
+    border-radius: 3vh;
 }
 
 .nav-button:hover {
