@@ -1,4 +1,5 @@
-.add-participant-dialog {
+.add-participant-dialog,
+.edit-participant-dialog {
     display: flex;
     flex-direction: column;
     border-radius: 3vh;
@@ -10,7 +11,8 @@
     z-index: 1001;
 }
 
-.add-participant-dialog-content {
+.add-participant-dialog-content,
+.edit-participant-dialog-content {
     padding: 1vh 10vh 5vh 10vh;
     display: flex;
     flex-direction: column;
@@ -30,19 +32,22 @@
     margin-bottom: 3vh;
 }
 
-.add-participant-header {
+.add-participant-header,
+.edit-participant-header {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.add-participant-dialog-buttons {
+.add-participant-dialog-buttons,
+.edit-participant-dialog-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.add-participant-discipline-input {
+.add-participant-discipline-input,
+.edit-participant-discipline-input {
     display: flex;
     flex-wrap: wrap;
     max-width: 40vh;

@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Discipline from '../interfaces/Disciplines'
 import { fetchDisciplines } from '../services/fetchUtils'
 import '../styling/addParticipantDialog.css'
 import { Fade } from '@mui/material'
+import { addParticipantApi } from '../services/apiFacade'
 
 export default function AddParticipantDialog({
     isOpen,
@@ -12,6 +13,11 @@ export default function AddParticipantDialog({
     toggleDialog: () => void
 }) {
     const [disciplines, setDisciplines] = useState<Discipline[]>([])
+    const [name, setName] = useState('')
+    const [age, setAge] = useState('')
+    const [club, setClub] = useState('')
+    const [gender, setGender] = useState('')
+    const [selectedDisciplines, setSelectedDisciplines] = useState<string[]>([])
 
     async function fetchItems() {
         const data = await fetchDisciplines()
@@ -22,79 +28,138 @@ export default function AddParticipantDialog({
         fetchItems()
     }, [])
 
+    function handleDisciplineChange(disciplineName: string) {
+        setSelectedDisciplines((prev) =>
+            prev.includes(disciplineName)
+                ? prev.filter((d) => d !== disciplineName)
+                : [...prev, disciplineName]
+        )
+    }
+
+    function handleSubmit(event: React.FormEvent) {
+        event.preventDefault()
+        const participantData = {
+            name,
+            age,
+            club,
+            gender,
+            disciplineNames: selectedDisciplines,
+        }
+
+        addParticipantApi(participantData)
+
+        resetForm()
+    }
+
+    function resetForm() {
+        setName('')
+        setAge('')
+        setClub('')
+        setGender('')
+        setSelectedDisciplines([])
+        toggleDialog()
+    }
+
     return (
         <>
             {isOpen && (
                 <Fade in={true} timeout={1000}>
-                    <dialog className="add-participant-dialog">
-                        <h2 className="add-participant-header">
-                            Add participant
-                        </h2>
-                        <div className="add-participant-dialog-content">
-                            <input
-                                className="input-field"
-                                name="name"
-                                placeholder="Name"
-                                type="text"
-                                required
-                            />
-                            <input
-                                className="input-field"
-                                name="age"
-                                placeholder="Age"
-                                type="number"
-                                required
-                            />
-                            <input
-                                className="input-field"
-                                name="club"
-                                placeholder="Club"
-                                type="text"
-                                required
-                            />
-                            <fieldset className="add-participant-gender-input">
-                                <legend>Gender</legend>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="gender"
-                                        value="male"
-                                        required
-                                    />
-                                    Male
-                                </label>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="gender"
-                                        value="female"
-                                    />
-                                    Female
-                                </label>
-                            </fieldset>
-                            <fieldset className="add-participant-discipline-input">
-                                <legend>Disciplines</legend>
-                                {disciplines.map((discipline) => (
-                                    <label key={discipline.id}>
+                    <dialog className="add-participant-dialog" open>
+                        <form onSubmit={handleSubmit}>
+                            <h2 className="add-participant-header">
+                                Add participant
+                            </h2>
+                            <div className="add-participant-dialog-content">
+                                <input
+                                    className="input-field"
+                                    name="name"
+                                    placeholder="Name"
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                />
+                                <input
+                                    className="input-field"
+                                    name="age"
+                                    placeholder="Age"
+                                    type="number"
+                                    value={age}
+                                    onChange={(e) => setAge(e.target.value)}
+                                    required
+                                />
+                                <input
+                                    className="input-field"
+                                    name="club"
+                                    placeholder="Club"
+                                    type="text"
+                                    value={club}
+                                    onChange={(e) => setClub(e.target.value)}
+                                    required
+                                />
+                                <fieldset className="add-participant-gender-input">
+                                    <legend>Gender</legend>
+                                    <label>
                                         <input
-                                            type="checkbox"
-                                            name="disciplines"
-                                            value={discipline.id}
+                                            type="radio"
+                                            name="gender"
+                                            value="MALE"
+                                            checked={gender === 'MALE'}
+                                            onChange={(e) =>
+                                                setGender(e.target.value)
+                                            }
+                                            required
                                         />
-                                        {discipline.name}
+                                        Male
                                     </label>
-                                ))}
-                            </fieldset>
-                        </div>
-                        <div className="add-participant-dialog-buttons">
-                            <button className="simple-button">Add</button>
-                            <button
-                                onClick={toggleDialog}
-                                className="simple-button"
-                            >
-                                Cancel
-                            </button>
-                        </div>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="gender"
+                                            value="FEMALE"
+                                            checked={gender === 'FEMALE'}
+                                            onChange={(e) =>
+                                                setGender(e.target.value)
+                                            }
+                                        />
+                                        Female
+                                    </label>
+                                </fieldset>
+                                <fieldset className="add-participant-discipline-input">
+                                    <legend>Disciplines</legend>
+                                    {disciplines.map((discipline) => (
+                                        <label key={discipline.id}>
+                                            <input
+                                                type="checkbox"
+                                                name="disciplines"
+                                                value={discipline.name}
+                                                checked={selectedDisciplines.includes(
+                                                    discipline.name
+                                                )}
+                                                onChange={() =>
+                                                    handleDisciplineChange(
+                                                        discipline.name
+                                                    )
+                                                }
+                                            />
+                                            {discipline.name}
+                                        </label>
+                                    ))}
+                                </fieldset>
+                            </div>
+                            <div className="add-participant-dialog-buttons">
+                                <button type="submit" className="simple-button">
+                                    Add
+                                </button>
+                                <button
+                                    onClick={resetForm}
+                                    className="simple-button"
+                                    type="button"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </dialog>
                 </Fade>
             )}

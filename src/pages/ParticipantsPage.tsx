@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import ParticipantDialog from '../components/AddParticipantDialog'
 import ParticipantList from '../components/ParticipantList'
 import '../styling/participantPage.css'
 import { Fade } from '@mui/material'
+import AddParticipantDialog from '../components/AddParticipantDialog'
 
 export default function ParticipantsPage() {
     const [dialogOpen, setDialogOpen] = useState(false)
@@ -35,8 +35,11 @@ export default function ParticipantsPage() {
                             placeholder="Search for participant"
                         />
                     </div>
-                    <ParticipantList />
-                    <ParticipantDialog
+                    <ParticipantList
+                        isOpen={dialogOpen}
+                        toggleDialog={toggleDialog}
+                    />
+                    <AddParticipantDialog
                         isOpen={dialogOpen}
                         toggleDialog={toggleDialog}
                     />
