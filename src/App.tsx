@@ -1,11 +1,15 @@
+import NavBar from './components/NavBar'
 import ParticipantsPage from './pages/ParticipantsPage'
 
 function App() {
     return (
-        <div>
-            <h1>React App</h1>
-            <ParticipantsPage />
-        </div>
+        <>
+            <NavBar />
+            <div>
+                <h1>React App</h1>
+                <ParticipantsPage />
+            </div>
+        </>
     )
 }
 

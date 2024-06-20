@@ -16,7 +16,7 @@ export default function ParticipantList() {
     }, [])
 
     return (
-        <div>
+        <div className="participant-list-container">
             {participants.map((participant) => (
                 <ParticipantItem
                     key={participant.id}

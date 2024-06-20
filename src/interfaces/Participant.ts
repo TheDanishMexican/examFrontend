@@ -1,3 +1,5 @@
+import Discipline from './Disciplines'
+
 enum Gender {
     MALE,
     FEMALE,
@@ -16,4 +18,5 @@ export default interface Participant {
     gender: Gender
     age: number
     club: Club
+    disciplines: Discipline[]
 }
