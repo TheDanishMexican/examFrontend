@@ -1,4 +1,4 @@
-import { getParticipantsApi } from './apiFacade'
+import { getDisciplinesApi, getParticipantsApi } from './apiFacade'
 
 export function makeOptions(
     method: string,
@@ -32,4 +32,9 @@ export function handleHttpErrors(response: Response): Response {
 export async function fetchParticipants() {
     const participants = await getParticipantsApi()
     return participants
+}
+
+export async function fetchDisciplines() {
+    const disciplines = await getDisciplinesApi()
+    return disciplines
 }

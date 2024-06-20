@@ -1,0 +1,19 @@
+.add-participant-dialog {
+    display: flex;
+    flex-direction: column;
+    border-radius: 3vh;
+    border: none;
+    background-color: rgb(145, 192, 230);
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.input-field {
+    margin-bottom: 1vh;
+}
+
+.add-participant-gender-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -1,3 +1,4 @@
+import ParticipantDialog from '../components/AddParticipantDialog'
 import ParticipantList from '../components/ParticipantList'
 import '../styling/participantPage.css'
 import { Fade } from '@mui/material'
@@ -16,6 +17,7 @@ export default function ParticipantsPage() {
                     />
                 </div>
                 <ParticipantList />
+                <ParticipantDialog />
             </div>
         </Fade>
     )
