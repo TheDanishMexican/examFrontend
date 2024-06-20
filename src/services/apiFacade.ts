@@ -1,6 +1,8 @@
-import Discipline from '../interfaces/Disciplines'
+import Discipline from '../interfaces/Discipline'
 import Participant from '../interfaces/Participant'
 import ParticipantDto from '../interfaces/ParticipantDto'
+import Result from '../interfaces/Result'
+import ResultDto from '../interfaces/ResultDto'
 import { API_URL } from '../settings'
 import { handleHttpErrors, makeOptions } from './fetchUtils'
 
@@ -42,4 +44,18 @@ export async function deleteParticipantApi(id: number): Promise<boolean> {
     const response = await fetch(`${API_URL}/api/participants/${id}`, options)
 
     return response.status === 204
+}
+
+export async function getResultsApi(): Promise<Result[]> {
+    const options = makeOptions('GET', null)
+    const response = await fetch(`${API_URL}/api/results`, options)
+
+    return await handleHttpErrors(response).json()
+}
+
+export async function addResultApi(resultDto: ResultDto): Promise<ResultDto> {
+    const options = makeOptions('POST', resultDto)
+    const response = await fetch(`${API_URL}/api/results`, options)
+
+    return await handleHttpErrors(response).json()
 }

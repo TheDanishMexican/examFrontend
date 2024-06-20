@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Discipline from '../interfaces/Disciplines'
+import Discipline from '../interfaces/Discipline'
 import { fetchDisciplines } from '../services/fetchUtils'
 import '../styling/addParticipantDialog.css'
 import { Fade } from '@mui/material'

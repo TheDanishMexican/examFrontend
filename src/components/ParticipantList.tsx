@@ -29,6 +29,32 @@ export default function ParticipantList({ onUpdate }: { onUpdate: boolean }) {
         fetchItems()
     }, [onUpdate])
 
+    function sortParticipants(
+        participantsAll: Participant[],
+        sortingType: string
+    ) {
+        const sortedParticipants = [...participantsAll]
+
+        switch (sortingType) {
+            case 'gender':
+                sortedParticipants.sort((a, b) => a.gender - b.gender)
+                break
+            case 'age':
+                sortedParticipants.sort((a, b) => a.age - b.age)
+                break
+            case 'club':
+                sortedParticipants.sort((a, b) => a.club.localeCompare(b.club))
+                break
+        }
+
+        setParticipants(sortedParticipants)
+    }
+
+    function handleSortingChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        const selectedSorting = e.target.value
+        sortParticipants(participants, selectedSorting)
+    }
+
     return (
         <>
             {dialogOpen && (
@@ -46,7 +72,36 @@ export default function ParticipantList({ onUpdate }: { onUpdate: boolean }) {
                             <th className="participant-th">Club</th>
                             <th className="participant-th">Gender</th>
                             <th className="participant-th">Disciplines</th>
-                            <th className="participant-th"></th>
+                            <th className="participant-th">
+                                <div className="sortFilter-container">
+                                    <select
+                                        onChange={(e) => handleSortingChange(e)}
+                                        name=""
+                                        id=""
+                                        defaultValue=""
+                                    >
+                                        <option value="" disabled>
+                                            Sort by{' '}
+                                        </option>
+                                        <option value="age">age</option>
+                                        <option value="club">club</option>
+                                        <option value="gender">gender</option>
+                                        <option value="discipline">
+                                            discipline
+                                        </option>
+                                    </select>
+                                    <select name="" id="" defaultValue="">
+                                        <option value="" disabled>
+                                            Filter by{' '}
+                                        </option>
+                                        <option value="age">age</option>
+                                        <option value="club">club</option>
+                                        <option value="discipline">
+                                            discipline
+                                        </option>
+                                    </select>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="participant-tbody">
