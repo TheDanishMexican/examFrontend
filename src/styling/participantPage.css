@@ -37,3 +37,13 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 1vh;
 }
+
+.greyed-out-overlay {
+    position: fixed; /* Cover the entire viewport */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1000; /* Ensure it's above other content but below the dialog */
+}

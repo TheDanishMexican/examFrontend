@@ -3,17 +3,48 @@
     flex-direction: column;
     border-radius: 3vh;
     border: none;
-    background-color: rgb(145, 192, 230);
+    background-color: rgb(183, 208, 228);
     position: absolute;
     font-family: Arial, Helvetica, sans-serif;
+    top: 20%;
+    z-index: 1001;
+}
+
+.add-participant-dialog-content {
+    padding: 1vh 10vh 5vh 10vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .input-field {
-    margin-bottom: 1vh;
+    margin-bottom: 3vh;
+    padding: 1vh;
+    border-radius: 1vh;
+    border: none;
 }
 
 .add-participant-gender-input {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 3vh;
+}
+
+.add-participant-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-participant-dialog-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.add-participant-discipline-input {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 40vh;
+    gap: 2vh;
 }
