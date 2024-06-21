@@ -3,6 +3,7 @@ import Participant from '../interfaces/Participant'
 import ParticipantDto from '../interfaces/ParticipantDto'
 import Result from '../interfaces/Result'
 import ResultDto from '../interfaces/ResultDto'
+import UpdateResultDto from '../interfaces/UpdateResultDto'
 import { API_URL } from '../settings'
 import { handleHttpErrors, makeOptions } from './fetchUtils'
 
@@ -58,4 +59,23 @@ export async function addResultApi(resultDto: ResultDto): Promise<Result> {
     const response = await fetch(`${API_URL}/api/results`, options)
 
     return await handleHttpErrors(response).json()
+}
+
+export async function editResultApi(
+    updatedResultDto: UpdateResultDto
+): Promise<Result> {
+    const options = makeOptions('PUT', updatedResultDto)
+    const response = await fetch(
+        `${API_URL}/api/results/${updatedResultDto.id}`,
+        options
+    )
+
+    return await handleHttpErrors(response).json()
+}
+
+export async function deleteResultApi(id?: number): Promise<boolean> {
+    const options = makeOptions('DELETE', null)
+    const response = await fetch(`${API_URL}/api/results/${id}`, options)
+
+    return response.status === 204
 }

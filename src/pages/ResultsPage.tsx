@@ -11,12 +11,21 @@ import Result from '../interfaces/Result'
 import AddResultDialog from '../components/AddResultDialog'
 import Discipline from '../interfaces/Discipline'
 import Participant from '../interfaces/Participant'
+import EditResultDialog from '../components/EditResultDialog'
 
 export default function ResultsPage() {
     const [results, setResults] = useState<Result[]>([])
     const [disciplines, setDisciplines] = useState<Discipline[]>([])
     const [dialogOpen, setDialogOpen] = useState(false)
+    const [editDialogOpen, setEditDialogOpen] = useState(false)
     const [participants, setParticipants] = useState<Participant[]>([])
+    const [triggerUpdate, setTriggerUpdate] = useState(false)
+    const [selectedResult, setSelectedResult] = useState<Result | null>(null)
+
+    function handleEditResult(result: Result | null) {
+        setSelectedResult(result)
+        toggleEditDialog()
+    }
 
     async function fetchItems() {
         const response = await fetchResults()
@@ -29,21 +38,31 @@ export default function ResultsPage() {
 
     useEffect(() => {
         fetchItems()
-    }, [])
+    }, [triggerUpdate])
 
     function toggleDialog() {
         setDialogOpen((prev: boolean) => !prev)
     }
 
+    function toggleEditDialog() {
+        setEditDialogOpen((prev: boolean) => !prev)
+    }
+
     return (
         <>
             {' '}
-            {dialogOpen && (
+            {(dialogOpen && (
                 <div
                     className="greyed-out-overlay"
                     onClick={toggleDialog}
                 ></div>
-            )}
+            )) ||
+                (editDialogOpen && (
+                    <div
+                        className="greyed-out-overlay"
+                        onClick={toggleEditDialog}
+                    ></div>
+                ))}
             <Fade in={true} timeout={1000}>
                 <div className="results-page-container">
                     <h1 className="participants-page-header">Results</h1>
@@ -60,7 +79,10 @@ export default function ResultsPage() {
                             placeholder="Search for result"
                         />
                     </div>
-                    <ResultList results={results} />
+                    <ResultList
+                        results={results}
+                        handleEditResult={handleEditResult}
+                    />
                 </div>
             </Fade>
             <AddResultDialog
@@ -68,6 +90,14 @@ export default function ResultsPage() {
                 toggleDialog={toggleDialog}
                 disciplines={disciplines}
                 participants={participants}
+                onUpdate={() => setTriggerUpdate((prev) => !prev)}
+            />
+            <EditResultDialog
+                selectedResult={selectedResult}
+                editDialogOpen={editDialogOpen}
+                toggleEditDialog={toggleEditDialog}
+                disciplines={disciplines}
+                onUpdate={() => setTriggerUpdate((prev) => !prev)}
             />
         </>
     )

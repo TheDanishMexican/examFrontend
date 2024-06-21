@@ -11,11 +11,13 @@ export default function AddResultDialog({
     toggleDialog,
     disciplines,
     participants,
+    onUpdate,
 }: {
     dialogOpen: boolean
     toggleDialog: () => void
     disciplines: Discipline[]
     participants: Participant[]
+    onUpdate: () => void
 }) {
     const [selectedParticipantId, setSelectedParticipantId] =
         useState<string>('')
@@ -34,7 +36,7 @@ export default function AddResultDialog({
         }
 
         await addResultApi(result)
-
+        onUpdate()
         toggleDialog()
     }
 

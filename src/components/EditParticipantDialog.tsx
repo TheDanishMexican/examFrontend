@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Participant from '../interfaces/Participant'
 import '../styling/addParticipantDialog.css'
-import Discipline from '../interfaces/Disciplines'
+import Discipline from '../interfaces/Discipline'
 import { fetchDisciplines } from '../services/fetchUtils'
 import { deleteParticipantApi, editParticipantApi } from '../services/apiFacade'
 import { Fade } from '@mui/material'

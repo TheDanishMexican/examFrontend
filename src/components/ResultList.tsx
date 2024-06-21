@@ -1,7 +1,13 @@
 import Result from '../interfaces/Result'
 import EditIcon from '@mui/icons-material/Edit'
 
-export default function ResultList({ results }: { results: Result[] }) {
+export default function ResultList({
+    results,
+    handleEditResult,
+}: {
+    results: Result[]
+    handleEditResult: (result: Result | null) => void
+}) {
     return (
         <div className="participant-list-container">
             <table className="participant-list-table">
@@ -55,7 +61,10 @@ export default function ResultList({ results }: { results: Result[] }) {
                                 {result.resultValue} {result.resultSuffix}
                             </td>
                             <td className="participant-td">
-                                <EditIcon className="edit-button-participant" />
+                                <EditIcon
+                                    onClick={() => handleEditResult(result)}
+                                    className="edit-button-participant"
+                                />
                             </td>
                         </tr>
                     ))}
