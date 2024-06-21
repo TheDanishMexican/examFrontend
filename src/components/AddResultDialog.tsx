@@ -3,6 +3,8 @@ import Discipline from '../interfaces/Discipline'
 import Participant from '../interfaces/Participant'
 import { useState } from 'react'
 import moment from 'moment'
+import ResultDto from '../interfaces/ResultDto'
+import { addResultApi } from '../services/apiFacade'
 
 export default function AddResultDialog({
     dialogOpen,
@@ -15,26 +17,42 @@ export default function AddResultDialog({
     disciplines: Discipline[]
     participants: Participant[]
 }) {
-    const [selectedParticipant, setSelectedParticipant] = useState('')
+    const [selectedParticipantId, setSelectedParticipantId] =
+        useState<string>('')
     const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-    const [selectedDiscipline, setSelectedDiscipline] = useState('')
-    const [resultValue, setResultValue] = useState('')
+    const [selectedDisciplineId, setSelectedDisciplineId] = useState<string>('')
+    const [resultValue, setResultValue] = useState<string>('')
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault()
+
+        const result: ResultDto = {
+            date: moment(selectedDate).format('YYYY-MM-DD'),
+            participantId: parseInt(selectedParticipantId),
+            disciplineId: parseInt(selectedDisciplineId),
+            resultValue: resultValue,
+        }
+
+        await addResultApi(result)
+
+        toggleDialog()
+    }
 
     return (
         <>
             {dialogOpen && (
                 <Fade in={true} timeout={1000}>
                     <dialog className="add-participant-dialog" open>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <h2 className="add-participant-header">
                                 Add result
                             </h2>
                             <div className="add-participant-dialog-content">
                                 <select
                                     className="input-field"
-                                    value={selectedParticipant}
+                                    value={selectedParticipantId}
                                     onChange={(e) =>
-                                        setSelectedParticipant(e.target.value)
+                                        setSelectedParticipantId(e.target.value)
                                     }
                                     required
                                 >
@@ -75,12 +93,8 @@ export default function AddResultDialog({
                                                 type="radio"
                                                 name="discipline"
                                                 value={discipline.id}
-                                                checked={
-                                                    selectedDiscipline ===
-                                                    String(discipline.id)
-                                                }
                                                 onChange={(e) =>
-                                                    setSelectedDiscipline(
+                                                    setSelectedDisciplineId(
                                                         e.target.value
                                                     )
                                                 }

@@ -53,7 +53,7 @@ export async function getResultsApi(): Promise<Result[]> {
     return await handleHttpErrors(response).json()
 }
 
-export async function addResultApi(resultDto: ResultDto): Promise<ResultDto> {
+export async function addResultApi(resultDto: ResultDto): Promise<Result> {
     const options = makeOptions('POST', resultDto)
     const response = await fetch(`${API_URL}/api/results`, options)
 
